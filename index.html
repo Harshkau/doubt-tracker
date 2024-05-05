@@ -157,6 +157,12 @@ color:white;
   margin: 0 10px; /* Add some margin between the pricing tables */
 }
 
+video {
+        width: 100%; /* Take up 100% of the parent container's width */
+        height: auto; /* Maintain aspect ratio */
+        max-width: 100%; /* Ensure the video doesn't exceed the width of its container */
+        display: block; /* Make sure the video element behaves like a block element */
+    }
 
 
     </style>
@@ -176,7 +182,8 @@ color:white;
   <div class="w3-bar-block">
     <a href="#portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal"><i class="fa fa-th-large fa-fw w3-margin-right"></i>HOME</a> 
     <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>ABOUT</a> 
-    <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
+    <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-credit-card w3-margin-right"></i>PAYMENT</a>
+   <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
     
   </div>
   <div class="w3-panel w3-large">
@@ -202,10 +209,9 @@ color:white;
     <div class="w3-section w3-bottombar w3-padding-16">
       <span class="w3-margin-right">Filter:</span> 
       <button class="w3-button w3-black">ALL</button>
-      <button class="w3-button w3-white"><i class="	fas fa-book w3-margin-right"></i>Subjects</button>
-      <button class="w3-button w3-white w3-hide-small"><i class="fa fa-photo w3-margin-right"></i>Photos</button>
-      <button class="w3-button w3-white w3-hide-small"><i class="fa fa-map-pin w3-margin-right"></i>Call</button>
-    </div>
+    <button class="w3-button w3-white"><i class="	fas fa-book w3-margin-right"></i>Subjects</button>
+      <button  id="openCameraBtn" class="w3-button w3-white  " ><i class="fa fa-photo w3-margin-right"></i>Call</button>
+         </div>
     </div>
   </header>
   
@@ -250,9 +256,15 @@ color:white;
   </div>
 
   <div class="w3-container w3-padding-large" style="margin-bottom:32px">
-    <h4><b>About Me</b></h4>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore delectus quia ut, reiciendis illum ipsa amet nemo modi minima est officia expedita tempora hic quibusdam deserunt aspernatur voluptate, quae mollitia?</p>
-    <hr>
+    <h4><b>How we work</b></h4>
+    <p>
+      
+Certainly! Here's a draft you can consider:
+
+Welcome to Doubt Tracker, where we specialize in resolving your accounting doubts swiftly and efficiently. With our personalized approach,
+ we offer direct calls with experienced teachers  at anytime.whether "day/night"  who are dedicated to guiding you through any accounting challenges you may face.
+
+    </p>  <hr>
     <hr>
     
     <h4>How much I charge</h4>
@@ -381,6 +393,31 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
+document.getElementById('openCameraBtn').addEventListener('click', function() {
+
+
+    // Check if the browser supports the getUserMedia API
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        // Request access to the user's camera
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+                // Create a video element and set the stream as its source
+                var video = document.createElement('video');
+                video.srcObject = stream;
+                video.autoplay = true;
+                
+                // Append the video element to the body to display the camera feed
+                document.body.appendChild(video);
+            })
+            .catch(function(error) {
+                console.error('Error accessing the camera:', error);
+                alert('Error accessing the camera. Please check your device permissions.');
+            });
+    } else {
+        alert('Your browser does not support accessing the camera.');
+    }
+});
 </script>
 
 </body>
