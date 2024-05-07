@@ -11,7 +11,9 @@
     <link  class="icon"rel="icon" href="https://i.postimg.cc/VkhftWcj/doubt-tracker.jpg ">  
 
     <style>
-    body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+    body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif;
+  
+  }
 
     /* Full-width input fields */
 input[type=text], input[type=password] {
@@ -138,6 +140,10 @@ color:white;
      float: none;
      
   }
+  video {
+        max-width: 100%;
+        max-height: 300px ;
+    }
   .cancelbtn {
      width: 100%;
      
@@ -159,10 +165,21 @@ color:white;
 
 video {
         width: 100%; /* Take up 100% of the parent container's width */
-        height: auto; /* Maintain aspect ratio */
+        height: 70%; /* Maintain aspect ratio */
         max-width: 100%; /* Ensure the video doesn't exceed the width of its container */
         display: block; /* Make sure the video element behaves like a block element */
     }
+    video {
+        max-width: 100%;
+        max-height: 400px ;
+    }
+    
+   button{
+    background: white;
+    color:black;
+    border:none;
+    
+   }
 
 
     </style>
@@ -180,9 +197,9 @@ video {
     
   </div>
   <div class="w3-bar-block">
-    <a href="#portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal"><i class="fa fa-th-large fa-fw w3-margin-right"></i>HOME</a> 
+    <a href="#portfolio" onclick="w3_close()" class="w3-bar-item w3-button w3-padding w3-text-teal"><i class="fa-solid fa-house  w3-margin-right"></i>HOME</a> 
     <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-user fa-fw w3-margin-right"></i>ABOUT</a> 
-    <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-credit-card w3-margin-right"></i>PAYMENT</a>
+    <a href="#Payment"onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa-solid fa-credit-card w3-margin-right"></i>PAYMENT</a>
    <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button w3-padding"><i class="fa fa-envelope fa-fw w3-margin-right"></i>CONTACT</a>
     
   </div>
@@ -206,8 +223,8 @@ video {
     <span class="w3-button w3-hide-large w3-xxlarge w3-hover-text-grey" onclick="w3_open()"><i class="fa fa-bars"></i></span>
     <div class="w3-container">
     <h1><b>Doubt Tracker</b></h1>
-    <div class="w3-section w3-bottombar w3-padding-16">
-      <span class="w3-margin-right">Filter:</span> 
+    <div  id="videoContainer"class="w3-section w3-bottombar w3-padding-16">
+    
       <button class="w3-button w3-black">ALL</button>
     <button class="w3-button w3-white"><i class="	fas fa-book w3-margin-right"></i>Subjects</button>
       <button  id="openCameraBtn" class="w3-button w3-white  " ><i class="fa-solid fa-video w3-margin-right"></i>Call</button>
@@ -266,8 +283,7 @@ Welcome to Doubt Tracker, where we specialize in resolving your accounting doubt
 
     </p>  <hr>
     <hr>
-    
-    <h4>How much I charge</h4>
+   <h4 >How much I charge</h4>
     <!-- Pricing Tables-->
     <div class="w3-row-padding">
       <div class="w3vibe w3-margin-bottom">
@@ -375,11 +391,13 @@ Welcome to Doubt Tracker, where we specialize in resolving your accounting doubt
 function w3_open() {
     document.getElementById("mySidebar").style.display = "block";
     document.getElementById("myOverlay").style.display = "block";
+    
 }
  
 function w3_close() {
     document.getElementById("mySidebar").style.display = "none";
     document.getElementById("myOverlay").style.display = "none";
+    
 }
 
 
@@ -394,11 +412,10 @@ window.onclick = function(event) {
     }
 }
 
+var cameraOpened = false; // Flag to track if camera is already opened
+
 document.getElementById('openCameraBtn').addEventListener('click', function() {
-
-
-    // Check if the browser supports the getUserMedia API
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    if (!cameraOpened) {
         // Request access to the user's camera
         navigator.mediaDevices.getUserMedia({ video: true })
             .then(function(stream) {
@@ -407,15 +424,29 @@ document.getElementById('openCameraBtn').addEventListener('click', function() {
                 video.srcObject = stream;
                 video.autoplay = true;
                 
-                // Append the video element to the body to display the camera feed
-                document.body.appendChild(video);
+                // Append the video element to the video container to display the camera feed
+                document.getElementById('videoContainer').appendChild(video);
+                
+                // Create a close camera button
+                var closeButton = document.createElement('button');
+                closeButton.textContent = 'Close Camera';
+                closeButton.addEventListener('click', function() {
+                    // Stop the video stream and remove the video element and close button
+                    video.srcObject.getTracks().forEach(track => track.stop());
+                    video.parentNode.removeChild(video);
+                    closeButton.parentNode.removeChild(closeButton);
+                    cameraOpened = false; // Reset the flag
+                });
+                document.getElementById('videoContainer').appendChild(closeButton);
+                
+                cameraOpened = true; // Set flag to true
             })
             .catch(function(error) {
                 console.error('Error accessing the camera:', error);
                 alert('Error accessing the camera. Please check your device permissions.');
             });
     } else {
-        alert('Your browser does not support accessing the camera.');
+        alert('Camera is already opened.');
     }
 });
 </script>
