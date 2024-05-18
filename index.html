@@ -286,6 +286,7 @@ Welcome to Doubt Tracker, where we specialize in resolving your accounting doubt
    <h4 >How much I charge</h4>
     <!-- Pricing Tables-->
     <div class="w3-row-padding">
+       <div class="w3-container w3-padding-large" id="Payment"></div>
       <div class="w3vibe w3-margin-bottom">
         <ul class="w3-ul w3-border w3-white w3-center w3-opacity w3-hover-opacity-off">
           <li class="w3-black w3-xlarge w3-padding-32">premium</li>
@@ -349,21 +350,66 @@ Welcome to Doubt Tracker, where we specialize in resolving your accounting doubt
       </div>
     </div>
     <hr class="w3-opacity">
-    <form action="/action_page.php" target="_blank">
-      <div class="w3-section">
-        <label>Name</label>
-        <input class="w3-input w3-border" type="text" name="Name" required>
-      </div>
-      <div class="w3-section">
-        <label>Email</label>
-        <input class="w3-input w3-border" type="text" name="Email" required>
-      </div>
-      <div class="w3-section">
-        <label>Message</label>
-        <input class="w3-input w3-border" type="text" name="Message" required>
-      </div>
-      <button type="submit" class="w3-button w3-black w3-margin-bottom"><i class="fa fa-paper-plane w3-margin-right"></i>Send Message</button>
-    </form>
+    <!-- Include the EmailJS SDK -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  // Initialize EmailJS with your user ID
+  emailjs.init("YOUR_USER_ID");
+
+  // JavaScript for handling form submission
+  document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+    
+    // Get form data
+    var formData = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      message: document.getElementById('message').value
+    };
+
+    // Set recipient email address
+    var recipientEmail = "doubttracker@gmail.com";
+    
+    // Construct email parameters
+    var emailParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      to_email: recipientEmail,
+      message: formData.message
+    };
+    
+    // Send email using EmailJS
+    emailjs.send("kaushikharsh244@gmail.com", "YOUR_TEMPLATE_ID", emailParams)
+      .then(function(response) {
+        alert('Your message has been sent successfully!');
+        // Clear form fields after successful submission
+        document.getElementById('contactForm').reset();
+      }, function(error) {
+        console.error('Error sending email:', error);
+        alert('An error occurred while sending your message. Please try again later.');
+      });
+  });
+</script>
+
+<!-- Form Markup -->
+<form id="contactForm">
+  <div class="w3-section">
+    <label>Name</label>
+    <input class="w3-input w3-border" type="text" id="name" name="name" required>
+  </div>
+  <div class="w3-section">
+    <label>Email</label>
+    <input class="w3-input w3-border" type="email" id="email" name="email" required>
+  </div>
+  <div class="w3-section">
+    <label>Message</label>
+    <input class="w3-input w3-border" type="text" id="message" name="message" required>
+  </div>
+  <button type="submit" class="w3-button w3-black w3-margin-bottom">
+    <i class="fa fa-paper-plane w3-margin-right"></i>Send Message
+  </button>
+</form>
+
   </div>
 <hr>
 <hr>
@@ -423,6 +469,8 @@ document.getElementById('openCameraBtn').addEventListener('click', function() {
                 var video = document.createElement('video');
                 video.srcObject = stream;
                 video.autoplay = true;
+                VideoPlaybackQuality=modal;
+                VideoPlaybackQuality=window;
                 
                 // Append the video element to the video container to display the camera feed
                 document.getElementById('videoContainer').appendChild(video);
