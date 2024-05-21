@@ -227,7 +227,9 @@ video {
     
       <button class="w3-button w3-black">ALL</button>
     <button class="w3-button w3-white"><i class="	fas fa-book w3-margin-right"></i>Subjects</button>
-      <button  id="openCameraBtn" class="w3-button w3-white  " ><i class="fa-solid fa-video w3-margin-right"></i>Call</button>
+    <!-- Inside your HTML -->
+<button id="openRepoBtn" class="w3-button w3-white"><i class="fa-solid fa-video w3-margin-right"></i>Call</button>
+
          </div>
     </div>
   </header>
@@ -457,46 +459,15 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+// JavaScript function to open GitHub repository link
+function openGitHubRepo() {
+    window.open('https://harshkau.github.io/doubt-tracker-stream/', '_blank');
+}
 
-var cameraOpened = false; // Flag to track if camera is already opened
+// Attach event listener to the button
+document.getElementById('openRepoBtn').addEventListener('click', openGitHubRepo);
 
-document.getElementById('openCameraBtn').addEventListener('click', function() {
-    if (!cameraOpened) {
-        // Request access to the user's camera
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function(stream) {
-                // Create a video element and set the stream as its source
-                var video = document.createElement('video');
-                video.srcObject = stream;
-                video.autoplay = true;
-                VideoPlaybackQuality=modal;
-                VideoPlaybackQuality=window;
-                
-                // Append the video element to the video container to display the camera feed
-                document.getElementById('videoContainer').appendChild(video);
-                
-                // Create a close camera button
-                var closeButton = document.createElement('button');
-                closeButton.textContent = 'Close Camera';
-                closeButton.addEventListener('click', function() {
-                    // Stop the video stream and remove the video element and close button
-                    video.srcObject.getTracks().forEach(track => track.stop());
-                    video.parentNode.removeChild(video);
-                    closeButton.parentNode.removeChild(closeButton);
-                    cameraOpened = false; // Reset the flag
-                });
-                document.getElementById('videoContainer').appendChild(closeButton);
-                
-                cameraOpened = true; // Set flag to true
-            })
-            .catch(function(error) {
-                console.error('Error accessing the camera:', error);
-                alert('Error accessing the camera. Please check your device permissions.');
-            });
-    } else {
-        alert('Camera is already opened.');
-    }
-});
+
 </script>
 
 </body>
