@@ -285,10 +285,10 @@ Welcome to Doubt Tracker, where we specialize in resolving your accounting doubt
 
     </p>  <hr>
     <hr>
-   <h4 >How much I charge</h4>
+   <h4 id="Payment" >How much I charge</h4>
     <!-- Pricing Tables-->
     <div class="w3-row-padding">
-       <div class="w3-container w3-padding-large" id="Payment"></div>
+       <div class="w3-container w3-padding-large" ></div>
       <div class="w3vibe w3-margin-bottom">
         <ul class="w3-ul w3-border w3-white w3-center w3-opacity w3-hover-opacity-off">
           <li class="w3-black w3-xlarge w3-padding-32">premium</li>
@@ -352,59 +352,27 @@ Welcome to Doubt Tracker, where we specialize in resolving your accounting doubt
       </div>
     </div>
     <hr class="w3-opacity">
-    <!-- Include the EmailJS SDK -->
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script>
-  // Initialize EmailJS with your user ID
-  emailjs.init("YOUR_USER_ID");
+    
 
-  // JavaScript for handling form submission
-  document.getElementById('contactForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
-    
-    // Get form data
-    var formData = {
-      name: document.getElementById('name').value,
-      email: document.getElementById('email').value,
-      message: document.getElementById('message').value
-    };
 
-    // Set recipient email address
-    var recipientEmail = "doubttracker@gmail.com";
-    
-    // Construct email parameters
-    var emailParams = {
-      from_name: formData.name,
-      from_email: formData.email,
-      to_email: recipientEmail,
-      message: formData.message
-    };
-    
-    // Send email using EmailJS
-    emailjs.send("kaushikharsh244@gmail.com", "YOUR_TEMPLATE_ID", emailParams)
-      .then(function(response) {
-        alert('Your message has been sent successfully!');
-        // Clear form fields after successful submission
-        document.getElementById('contactForm').reset();
-      }, function(error) {
-        console.error('Error sending email:', error);
-        alert('An error occurred while sending your message. Please try again later.');
-      });
-  });
+<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script type="text/javascript">
+    (function() {
+        emailjs.init("Q_Fpy-xYsUZUSRIXW"); // Replace with your EmailJS user ID
+    })();
 </script>
-
 <!-- Form Markup -->
-<form id="contactForm">
+<form id="contact-form">
   <div class="w3-section">
-    <label>Name</label>
+    <label for="name">Name</label>
     <input class="w3-input w3-border" type="text" id="name" name="name" required>
   </div>
   <div class="w3-section">
-    <label>Email</label>
+    <label for="email">Email</label>
     <input class="w3-input w3-border" type="email" id="email" name="email" required>
   </div>
   <div class="w3-section">
-    <label>Message</label>
+    <label for="message">Message</label>
     <input class="w3-input w3-border" type="text" id="message" name="message" required>
   </div>
   <button type="submit" class="w3-button w3-black w3-margin-bottom">
@@ -467,7 +435,28 @@ function openGitHubRepo() {
 // Attach event listener to the button
 document.getElementById('openRepoBtn').addEventListener('click', openGitHubRepo);
 
+ 
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
 
+            const serviceID = 'harsh2580'; // Replace with your EmailJS service ID
+            const templateID = 'template_7noas2g'; // Replace with your EmailJS template ID
+
+            const templateParams = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+
+            emailjs.send(serviceID, templateID, templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    alert('Email sent successfully!');
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    alert('Failed to send email. Please try again.');
+                });
+        });
 </script>
 
 </body>
